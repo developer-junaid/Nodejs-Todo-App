@@ -14,6 +14,14 @@ let todoSchema = new mongoose.Schema({
   item: String,
 });
 
+// Model
+let Todo = mongoose.model("Todo", todoSchema);
+
+let itemOne = Todo({ item: "get flowers" }).save((err) => {
+  if (err) throw err;
+  console.log("item saved");
+});
+
 // Data
 let data = [
   { item: "get milk" },

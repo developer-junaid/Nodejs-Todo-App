@@ -14,33 +14,43 @@ let todoSchema = new mongoose.Schema({
   item: String,
 });
 
-// Model
+// Model (Collection)
 let Todo = mongoose.model("Todo", todoSchema);
 
-let itemOne = Todo({ item: "get flowers" }).save((err) => {
-  if (err) throw err;
-  console.log("item saved");
-});
+// Add Item to the collection
+// let itemOne = Todo({ item: "get flowers" }).save((err) => {
+//   if (err) throw err;
+//   console.log("item saved");
+// });
 
 // Data
-let data = [
-  { item: "get milk" },
-  { item: "take online classes" },
-  { item: "create project" },
-];
+// let data = [
+//   { item: "get milk" },
+//   { item: "take online classes" },
+//   { item: "create project" },
+// ];
 
 module.exports = function (app) {
   // Todo Logic
 
   app.get("/todo", function (req, res) {
-    // Get logic
-    res.render("todo", { todos: data }); // render todo and pass data
+    // Get Data from DB
+    Todo.find({}, (err, data) => {
+      if (err) throw err;
+
+      // If fine render view
+      res.render("todo", { todos: data }); // render todo and pass data
+    }); // Get all items from Todo Collection
   });
 
   app.post("/todo", urlencodedParser, function (req, res) {
-    // Post Logic
-    data.push(req.body);
-    res.json({ todos: data });
+    // Get Data from view and add it to mongoDB
+    let newTodo = Todo(req.body).save((err, data) => {
+      if (err) throw err;
+
+      // If fine render updated one
+      res.json({ todos: data });
+    });
   });
 
   app.delete("/todo/:item", (req, res) => {

@@ -1,6 +1,18 @@
 const { urlencoded } = require("body-parser");
+const mongoose = require("mongoose");
 
 const urlencodedParser = urlencoded({ extended: false });
+
+// Connect Database
+let mongoUrl =
+  "mongodb+srv://test:test@mongocluster.xesxp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+mongoose.connect(mongoUrl);
+
+// Create a schema - like a blueprint
+let todoSchema = new mongoose.Schema({
+  item: String,
+});
 
 // Data
 let data = [

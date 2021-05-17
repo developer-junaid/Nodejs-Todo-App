@@ -20,9 +20,9 @@
         <button type="submit">Add Item</button>
       </form>
       <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
+        <% todos.map((todo)=>{ %>
+        <li><%= todo.item %></li>
+        <% }) %>
       </ul>
     </div>
   </body>

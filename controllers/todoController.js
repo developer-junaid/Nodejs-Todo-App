@@ -23,8 +23,13 @@ module.exports = function (app) {
     res.json({ todos: data });
   });
 
-  app.delete("/todo", (req, res) => {
+  app.delete("/todo/:item", (req, res) => {
     // Delete Logic
+    data = data.filter(
+      (todo) => todo.item.replace(/ /g, "-") !== req.params.item
+    );
+
+    res.json({ todos: data });
   });
 
   //

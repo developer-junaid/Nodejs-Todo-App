@@ -54,12 +54,15 @@ module.exports = function (app) {
   });
 
   app.delete("/todo/:item", (req, res) => {
-    // Delete Logic
-    data = data.filter(
-      (todo) => todo.item.replace(/ /g, "-") !== req.params.item
-    );
+    // Delete Requested Item from mongoDB
+    Todo.find({ item: req.params.item.replace(/\-/g, " ") }).remove(
+      (err, data) => {
+        if (err) throw err;
 
-    res.json({ todos: data });
+        // If fine render it
+        res.json({ todos: data });
+      }
+    );
   });
 
   //
